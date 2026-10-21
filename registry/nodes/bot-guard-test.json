@@ -1,0 +1,9 @@
+{
+  "id": "bot-guard-test",
+  "name": "Bot Guard Test",
+  "operator": "CI Test",
+  "kind": "evm",
+  "url": "https://127.0.0.1",
+  "description": "Safety test, invalid local endpoint",
+  "docs": "https://explorer.windcrypto.com/evm"
+}
