@@ -1,0 +1,9 @@
+{
+  "id": "wind-native",
+  "name": "WIND Native API",
+  "operator": "WIND",
+  "kind": "native",
+  "url": "https://api.windcrypto.com",
+  "description": "Vexanium chain API, blocks and account state",
+  "docs": "https://explorer.windcrypto.com"
+}

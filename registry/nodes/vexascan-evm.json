@@ -1,0 +1,9 @@
+{
+  "id": "vexascan-evm",
+  "name": "Vexascan RPC",
+  "operator": "Vexascan",
+  "kind": "evm",
+  "url": "https://vexascan.com/rpc",
+  "description": "Community EVM JSON-RPC \u00b7 Chain 6736",
+  "docs": "https://vexascan.com/evm"
+}

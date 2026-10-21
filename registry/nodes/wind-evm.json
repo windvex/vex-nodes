@@ -1,0 +1,9 @@
+{
+  "id": "wind-evm",
+  "name": "WIND EVM RPC",
+  "operator": "WIND",
+  "kind": "evm",
+  "url": "https://api.windcrypto.com/rpc",
+  "description": "EVM JSON-RPC \u00b7 Chain 6736",
+  "docs": "https://explorer.windcrypto.com/evm"
+}

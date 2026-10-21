@@ -1,0 +1,9 @@
+{
+  "id": "wind-hyperion",
+  "name": "WIND Hyperion",
+  "operator": "WIND",
+  "kind": "history",
+  "url": "https://api.windcrypto.com",
+  "description": "Indexed Vexanium actions, history and traces",
+  "docs": "https://explorer.windcrypto.com"
+}
