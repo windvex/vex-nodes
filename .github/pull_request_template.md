@@ -1,11 +1,8 @@
-## Node registration
+## Register node
 
-- [ ] I operate this public endpoint or have permission to publish it.
-- [ ] This PR adds new JSON only in registry/nodes (no modifications to existing entries).
-- [ ] The endpoint uses public HTTPS and serves Vexanium Native, EVM (chain ID 6736), or Hyperion.
-- [ ] DNS TXT proof is present: _vexnodes.YOUR-ENDPOINT-HOST = vex-nodes=github:YOUR-GITHUB-USERNAME.
-- [ ] I checked the URL, documentation link, and service type.
+- [ ] My PR adds new JSON file(s) to `registry/nodes/` only.
+- [ ] The endpoint is publicly accessible over HTTPS.
+- [ ] The endpoint serves Vexanium Native, EVM (chain ID 6736), or Hyperion.
+- [ ] The endpoint URL, operator name and documentation link are correct.
 
-### Endpoint hostname
-
-### Ownership evidence
+### Notes (optional)

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { assessFiles, parseNewEntries, normalizeOwner } from './review-policy.mjs';
-import { resolvePublicAddress, verifyOwnership, probeNode } from './review-probe.mjs';
+import { assessFiles, parseNewEntries } from './review-policy.mjs';
+import { probeNode } from './review-probe.mjs';
 
 const token=process.env.GITHUB_TOKEN;
 const event=process.env.GITHUB_EVENT_PATH && JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
@@ -40,7 +40,6 @@ const main=async()=>{
   if(!pr.head?.sha||!pr.head.repo?.full_name)throw Error('Head repository unavailable');
   if(pr.changed_files<1||pr.changed_files>3)throw Error('Only 1–3 new node files per PR can auto-merge');
   const originalSha=pr.head.sha;
-  const owner=normalizeOwner(pr.user.login);
   const files=await github('GET','/repos/'+repo+'/pulls/'+pr.number+'/files?per_page=100');
   if(files.length!==pr.changed_files)throw Error('File list is incomplete');
   assessFiles(files);
@@ -53,10 +52,6 @@ const main=async()=>{
   }));
   const additions=parseNewEntries(files,sources);
   for(const node of additions) {
-    const hostname=new URL(node.url).hostname;
-    await resolvePublicAddress(hostname);
-    await verifyOwnership(hostname,owner);
-    console.log('Domain verified:',hostname,owner);
     // Two independent checks to reduce intermittent or spoofed responses.
     const first=await probeNode(node);
     await new Promise(resolve=>setTimeout(resolve,1200));
@@ -66,12 +61,12 @@ const main=async()=>{
   const current=await github('GET','/repos/'+repo+'/pulls/'+pr.number);
   if(current.head.sha!==originalSha||current.state!=='open'||current.base.ref!=='main'||current.draft)throw Error('PR changed during validation; a new review is required');
   await graphql('mutation($id:ID!){enablePullRequestAutoMerge(input:{pullRequestId:$id,mergeMethod:SQUASH}){pullRequest{number,autoMergeRequest{enabledAt}}}}',{id:current.node_id});
-  await note('✅ **Automatic review passed.** Domain ownership and Vexanium chain responses were verified. GitHub will merge this PR automatically after the required checks pass.\n\n'+additions.map(node=>'- '+node.id+' — '+node.kind).join('\n'));
+  await note('✅ **Automatic review passed.** The Vexanium RPC and network responses were verified. GitHub will merge this PR automatically after the required checks pass.\n\n'+additions.map(node=>'- '+node.id+' — '+node.kind).join('\n'));
 };
 try {await main();}
 catch(error) {
   const reason=String(error?.message||error).slice(0,600);
   console.error('Auto-review blocked:',reason);
-  await note('⛔ **Automatic review blocked.** '+reason+'\n\nUpdate the PR or provide the required DNS proof, then push a new commit to re-run verification. Changes outside new node JSON files need maintainer review.');
+  await note('⛔ **Automatic review blocked.** '+reason+'\n\nCorrect the reported issue and push a new commit to re-run verification. Changes outside new node JSON files need maintainer review.');
   process.exitCode=1;
 }

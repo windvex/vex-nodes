@@ -1,4 +1,4 @@
-import { lookup, resolveTxt } from 'node:dns/promises';
+import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
 import { request } from 'node:https';
 
@@ -30,15 +30,6 @@ export async function resolvePublicAddress(hostname,{resolve=lookup}={}) {
   if (!results?.length || results.length>32 || results.some(x=>!isPublicIp(x.address))) throw Error('DNS did not resolve exclusively to public addresses');
   const ipv4 = results.find(x=>x.family===4);
   return ipv4 || results[0];
-}
-export async function verifyOwnership(hostname,owner,{lookupTxt=resolveTxt}={}) {
-  const key = '_vexnodes.'+hostname;
-  let records;
-  try { records = await lookupTxt(key); } catch { throw Error('Missing ownership TXT record at '+key); }
-  const expected='vex-nodes=github:'+owner.toLowerCase();
-  if (!records.some(parts=>parts.join('').toLowerCase().trim()===expected)) {
-    throw Error('Expected TXT '+key+' = '+expected);
-  }
 }
 export function getJson(url, options={}) {
   const parsed = new URL(url);

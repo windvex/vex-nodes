@@ -1,28 +1,32 @@
 # VEX Nodes
 
-Community-maintained directory of public Vexanium Native, EVM and Hyperion endpoints.
+A community directory for public Vexanium Native, EVM and Hyperion endpoints.
 
 **Website:** https://nodes.windcrypto.com
 
 ## Add your node
 
-Read **[CONTRIBUTING.md](CONTRIBUTING.md)**, fork the registry, add a JSON file in [registry/nodes](registry/nodes), configure DNS TXT ownership proof, and open a Pull Request.
+1. Read [CONTRIBUTING.md](CONTRIBUTING.md).
+2. Fork this repository and add your endpoint JSON under [registry/nodes](registry/nodes).
+3. Open a Pull Request.
 
-A bot validates the change, verifies domain ownership and the live Vexanium network, then enables GitHub auto-merge when the required checks pass. PRs that change code or existing registrations require maintainer attention.
+GitHub Actions validates the JSON and checks the public endpoint against the correct Vexanium network. **Eligible additions merge automatically after checks pass**, with no DNS TXT records or manual approval needed.
 
-## Source of truth
+Changes to existing registrations, code or workflows are **never auto-merged**.
 
-- `registry/network.json` — canonical chain IDs
-- `registry/nodes/*.json` — reviewed public endpoints
-- `scripts/` and GitHub Actions — automated validation and safe review
+## Repository contents
 
-Frontend and monitoring backend are maintained in a **separate private repository**. This repository does not include deployment files, secrets, or the application's source code.
+- `registry/network.json` — Vexanium chain identifiers
+- `registry/nodes/*.json` — community-submitted public endpoints
+- `scripts/` and `.github/workflows/` — validation and automatic checks
+
+Frontend and monitoring backend are maintained separately in a private repository.
 
 ## Local validation
 
-Node.js 22 or newer:
+Node.js 22+:
 
     npm run validate
     npm test
 
-Block Producer profiles are read independently from on-chain accounts and public `bp.json` records. BP registration does not automatically register an API endpoint.
+Block Producer profiles come independently from on-chain records and public `bp.json` files.

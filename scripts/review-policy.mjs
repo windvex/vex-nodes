@@ -31,8 +31,3 @@ export function parseNewEntries(files, jsonTexts, source = loadRegistry()) {
   validateRegistry(source.network, [...source.entries,...additions]);
   return additions;
 }
-
-export function normalizeOwner(raw) {
-  if (typeof raw !== 'string' || !/^[a-z0-9](?:[a-z0-9-]{0,37}[a-z0-9])?$/i.test(raw)) throw Error('Invalid GitHub account name');
-  return raw.toLowerCase();
-}
