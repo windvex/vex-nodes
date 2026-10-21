@@ -1,25 +1,24 @@
 name: Validate node registry
 on:
   pull_request:
-    paths:
-      - "registry/**"
-      - "scripts/**"
-      - "package.json"
-      - ".github/workflows/validate.yml"
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
+
 permissions:
   contents: read
+
 jobs:
   validate:
+    name: Registry validation
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Validate entries
-        run: npm run validate
-      - name: Test validation rules
-        run: npm test
+      - name: Validate entries and policy tests
+        run: npm run validate && npm test

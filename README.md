@@ -1,27 +1,28 @@
-# VEX Nodes — Public Registry
+# VEX Nodes
 
-Community directory for Vexanium Native, EVM and Hyperion endpoints.
+Community-maintained directory of public Vexanium Native, EVM and Hyperion endpoints.
 
 **Website:** https://nodes.windcrypto.com
 
-## Add a node
+## Add your node
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md), fork the repository, add one JSON file to [registry/nodes](registry/nodes), and open a Pull Request. CI validates entries before maintainer approval.
+Read **[CONTRIBUTING.md](CONTRIBUTING.md)**, fork the registry, add a JSON file in [registry/nodes](registry/nodes), configure DNS TXT ownership proof, and open a Pull Request.
 
-This repository deliberately contains **only public network metadata, contribution guidelines and CI checks**. No application frontend, monitoring backend, deployment scripts or private infrastructure.
+A bot validates the change, verifies domain ownership and the live Vexanium network, then enables GitHub auto-merge when the required checks pass. PRs that change code or existing registrations require maintainer attention.
 
-Block Producers are read directly from Vexanium on-chain records and published bp.json profiles; they are not automatically public RPC nodes.
+## Source of truth
 
-## Registry layout
+- `registry/network.json` — canonical chain IDs
+- `registry/nodes/*.json` — reviewed public endpoints
+- `scripts/` and GitHub Actions — automated validation and safe review
 
-- registry/network.json — chain identifiers
-- registry/nodes/*.json — one reviewed public endpoint per file
+Frontend and monitoring backend are maintained in a **separate private repository**. This repository does not include deployment files, secrets, or the application's source code.
 
-## Validation
+## Local validation
 
-Requires Node.js 22+. Run:
+Node.js 22 or newer:
 
     npm run validate
     npm test
 
-No dependencies, credentials or live endpoint probes are needed for CI.
+Block Producer profiles are read independently from on-chain accounts and public `bp.json` records. BP registration does not automatically register an API endpoint.

@@ -1,13 +1,11 @@
 {
   "name": "vex-nodes-registry",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "validate": "node scripts/validate-registry.mjs",
-    "test": "node --test scripts/validate-registry.test.mjs"
+    "test": "node --test scripts/*.test.mjs"
   },
-  "engines": {
-    "node": ">=22"
-  }
+  "engines": { "node": ">=22" }
 }

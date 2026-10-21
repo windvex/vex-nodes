@@ -1,17 +1,11 @@
-## Node submission
+## Node registration
 
-**Operator:**
-**Service type:** Native / EVM / Hyperion
-**Endpoint:**
-**Website / explorer:**
-**Proof of ownership or operator consent:**
+- [ ] I operate this public endpoint or have permission to publish it.
+- [ ] This PR adds new JSON only in registry/nodes (no modifications to existing entries).
+- [ ] The endpoint uses public HTTPS and serves Vexanium Native, EVM (chain ID 6736), or Hyperion.
+- [ ] DNS TXT proof is present: _vexnodes.YOUR-ENDPOINT-HOST = vex-nodes=github:YOUR-GITHUB-USERNAME.
+- [ ] I checked the URL, documentation link, and service type.
 
-### Checklist
+### Endpoint hostname
 
-- [ ] I added only my own public HTTPS service in registry/nodes/<id>.json.
-- [ ] The URL is intended for public use, with no authentication or private credentials.
-- [ ] I verified the endpoint responds with the correct Vexanium chain ID (Native f9f432…56ce1f, EVM 6736).
-- [ ] I ran npm run validate.
-- [ ] I am happy for this endpoint to be monitored automatically.
-
-Operator submissions require code review. Passing automated tests does not guarantee approval.
+### Ownership evidence

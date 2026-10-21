@@ -1,43 +1,51 @@
-# Contribute a public node
+# Add a Vexanium node
 
-Adding your Vexanium node works through **forks and Pull Requests**, just like Chainlist.
+Registering your node works through a **fork and Pull Request**, as on Chainlist. Eligible submissions are reviewed and merged automatically.
 
-## Steps
+## Submit your endpoint
 
-1. [Fork windvex/vex-nodes](https://github.com/windvex/vex-nodes/fork).
-2. In your fork, open the [registry/nodes](registry/nodes) directory.
-3. Add one JSON file with a unique lowercase name such as mynode-evm.json. Do not edit other operators' files.
-4. Fill it with real public HTTPS information using the example below.
-5. Run npm run validate and npm test using Node.js 22+, or let GitHub Actions check the PR.
-6. [Create a Pull Request](https://github.com/windvex/vex-nodes/compare) against the main branch. Include evidence you own or are authorized to publish the endpoint.
-7. Wait for maintainer review. Approved, merged entries are automatically synchronized to the directory.
+1. **[Fork windvex/vex-nodes](https://github.com/windvex/vex-nodes/fork)**.
+2. Add one JSON file in [registry/nodes](registry/nodes) on your fork. Name it after a unique ID, e.g. mynode-evm.json.
+3. Use real public HTTPS URLs and choose `native`, `evm`, or `history`. See the example below.
+4. **Prove ownership of the endpoint hostname**. Add this public DNS TXT record through your DNS provider:
 
-## JSON example
+       Name:  _vexnodes.rpc.yourdomain.com
+       Type:  TXT
+       Value: vex-nodes=github:your-github-username
 
-File name: registry/nodes/example-evm.json
+   Replace `rpc.yourdomain.com` with your exact endpoint hostname and `your-github-username` with your GitHub account. The PR author must match the record. If you use Cloudflare, create the TXT under your zone with the correct relative name.
+5. Open a **[Pull Request](https://github.com/windvex/vex-nodes/compare)** against `main`. GitHub Actions validates and reviews the submission.
 
-    {
-      "id": "example-evm",
-      "name": "Example EVM RPC",
-      "operator": "Example Operator",
-      "kind": "evm",
-      "url": "https://rpc.example.com",
-      "description": "Public Vexanium EVM JSON-RPC",
-      "docs": "https://example.com"
-    }
+## Example
 
-Supported kinds: native (Antelope chain API), evm (chain 6736), history (Hyperion).
+File: `registry/nodes/mynode-evm.json`
 
-Use one file per service. Only public HTTPS addresses are accepted. Never add admin, LAN, authenticated, SSH, SHIP or private endpoints, keys or passwords.
+```json
+{
+  "id": "mynode-evm",
+  "name": "My Node EVM RPC",
+  "operator": "My Node",
+  "kind": "evm",
+  "url": "https://rpc.yourdomain.com",
+  "description": "Public Vexanium EVM JSON-RPC",
+  "docs": "https://yourdomain.com"
+}
+```
 
-## Review
+## Automated review
 
-CI validates JSON shape, file naming, duplicate endpoint IDs/URLs and public HTTPS format. CI **never probes unreviewed URLs**.
+The bot automatically checks JSON format, unique ID and URL, changed files, DNS ownership, public IP addresses, correct chain identity, and two endpoint health checks. For EVM, the chain ID must be **6736**. Auto-merge is enabled only when everything passes **and the required CI status is green**. The website then picks up the approved registry changes automatically.
 
-Maintainers verify endpoint ownership, chain ID, public availability and usage policy before merging. A PR is not a guarantee of acceptance.
+Each PR can add 1–3 new JSON files. **Changes to existing entries, scripts, CI files, or anything outside `registry/nodes/*.json` never auto-merge.** If ownership verification fails or a health check is unavailable, the PR is blocked; make corrections and push a new commit.
+
+- Node endpoints must be HTTPS and publicly accessible.
+- Never submit authenticated, private LAN, admin, P2P or SHIP URLs, secrets or access tokens.
+- Submitting an endpoint does not imply endorsement.
+- DNS ownership proves control of the endpoint host; it does not certify reliability or security.
+- Only merged node entries are sent to production monitoring. GitHub Actions does not run code supplied by PR authors in its privileged review job.
 
 ## Block Producer profiles
 
-Block Producer registration is different: producer data comes from the chain. Publish bp.json at the HTTPS website associated with your on-chain producer account to provide logo, location and public node metadata.
+BP account information comes from Vexanium itself. Publish `bp.json` on the HTTPS website registered by your BP for logo, organization, location, and announced node services. BP metadata is distinct from submitted RPC endpoints.
 
-For help, use [Issues](https://github.com/windvex/vex-nodes/issues). Endpoint submission must use a Pull Request.
+Questions? Open an [issue](https://github.com/windvex/vex-nodes/issues). Additions should use PRs rather than issues.
